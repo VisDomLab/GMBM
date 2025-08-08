@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Attribute Bias Mitigation via Representation Learning | ECAI 2025</title>
+<style>
+:root{
+  --bg:#0b1536;
+  --ink:#0d1220;
+  --brand:#1e66f5;
+  --muted:#6b7280;
+  --card:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
+  line-height:1.65;
+  color:var(--ink);
+  background:#f5f7fb;
+}
+.header-hero{
+  background: radial-gradient(90% 120% at 10% 10%, #13214d 0%, #0b1536 60%, #060a1d 100%);
+  color:#fff; padding:64px 16px;
+}
+.container{max-width:1000px;margin:0 auto;padding:0 16px}
+.nav{
+  display:flex;gap:16px;flex-wrap:wrap;margin-top:16px
+}
+.nav a{color:#a7c0ff;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.15)}
+.nav a:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+.card{
+  background:var(--card); border:1px solid #e5e7eb; border-radius:16px; padding:20px; box-shadow:0 6px 20px rgba(17,24,39,.06);
+}
+.grid{display:grid; gap:20px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:900px){.grid-2{grid-template-columns:1fr}}
+h1{font-size: clamp(1.6rem, 1.1rem + 2vw, 2.4rem); margin:0 0 8px}
+h2{color:#0b1536}
+.kicker{letter-spacing:.12em; text-transform:uppercase; color:#8fb0ff; font-weight:600; font-size:.8rem}
+.meta{color:#d8e2ff; margin-top:8px}
+.links a{display:inline-block; margin-right:12px; text-decoration:none; color:var(--brand); font-weight:700}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.8rem;background:#e8efff;color:#1e40af;border:1px solid #c7d7ff}
+.footer{color:#94a3b8;text-align:center;padding:32px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+figure{margin:0}
+figcaption{font-size:.9rem;color:var(--muted);margin-top:8px}
+ul{padding-left:1.1rem}
+</style>
+</head>
+<body>
+  <header class="header-hero">
+    <div class="container">
+      <div class="kicker">ECAI 2025</div>
+      <h1>Multi-Attribute Bias Mitigation via Representation Learning</h1>
+      <div class="meta">Rajeev Ranjan Dwivedi · Ankur Kumar · Vinod K Kurmi</div>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#method">Model & Method</a>
+        <a href="#metrics">SBA Metric</a>
+        <a href="#contrib">Contributions</a>
+        <a href="Paper__ECAI2025_BaDD.pdf">PDF</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container" style="margin-top:-24px;margin-bottom:24px">
+
+    <section id="overview" class="grid grid-2">
+      <div class="card">
+        <h2>Abstract</h2>
+        <p>Real-world images frequently exhibit multiple overlapping biases, including textures, watermarks, gendered makeup, scene-object pairings, etc. These biases collectively impair the performance of modern vision models, undermining both their robustness and fairness. Addressing these biases individually proves inadequate, as mitigating one bias often permits or intensifies others.</p>
+        <p><strong>GMBM</strong> is a lean two-stage framework that needs group labels only while training and minimizes bias at test time. First, <em>Adaptive Bias-Integrated Learning (ABIL)</em> deliberately identifies the influence of known shortcuts by training encoders for each attribute and integrating them with the main backbone. Then <em>Gradient-Suppression Fine-Tuning</em> prunes those bias directions from the backbone’s gradients, leaving a single compact network that ignores all shortcuts.</p>
+        <p>We also introduce <strong>Scaled Bias Amplification (SBA)</strong>, a robust test-time fairness metric that disentangles model-induced amplification from distribution shifts.</p>
+        <div class="links">
+          <a href="Paper__ECAI2025_BaDD.pdf">📄 PDF</a>
+          <a href="Supplementary.pdf">📝 Supplementary</a>
+          <a href="https://github.com/VisDomLab/GMBM">💻 Code</a>
+        </div>
+      </div>
+      <figure class="card">
+        <img src="gradient.png" alt="Overview of the two-stage GMBM framework" style="max-width:100%;border-radius:8px;background:#eef2ff;padding:8px;">
+        <figcaption style="text-align:center;">Gradient Suppression</figcaption>
+      </figure>
+    </section>
+
+    <section class="card">
+      <h2>BibTeX</h2>
+      <pre><code>@inproceedings{rajeevr_ecai25,
+  author    = {Dwivedi, Rajeev R} and {Kumar, Ankur} and {Kurmi, Vinod},
+  title     = {Multi-Attribute Bias Mitigation via Representation Learning},
+  booktitle = {ECAI},
+  year      = {2025}
+}</code></pre>
+    </section>
+
+    <section id="method" class="card">
+      <h2>Model & Method</h2>
+      <figure>
+        <img src="model.png" alt="GMBM: ABIL (left) and GSFT (right)" style="max-width:100%;border-radius:8px;background:#eef2ff;padding:8px;">
+        <figcaption>ABIL (left) and GSFT (right).</figcaption>
+      </figure>
+      <div class="grid grid-2" style="margin-top:20px">
+        <div class="card">
+          <h3>Stage 1 — Adaptive Bias–Integrated Learning (ABIL)</h3>
+          <ul>
+            <li>ABIL trains a dedicated encoder for each known bias attribute to capture its spurious features. It computes cosine-similarity-based attention weights between these bias features and the main image representation, then fuses them. By presenting the classifier with both the clean and bias-accentuated signals, ABIL forces the model to recognize and disentangle spurious cues from task-relevant information, building a bias-aware backbone representation.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Stage 2 — Gradient Suppression</h3>
+          <ul>
+            <li>After ABIL, the bias encoders are discarded, and the backbone is fine-tuned using only the clean image features. Each bias vector is projected onto a space orthogonal to the image feature, and the model is penalized for gradient components in these directions. This suppresses any residual reliance on spurious features, ensuring the final network remains invariant to all known biases while preserving meaningful semantic information.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics" class="grid grid-2">
+      <div class="card">
+        <h2>Scaled Bias Amplification (SBA)</h2>
+        <ul>
+          <li>Scaled Bias Amplification (SBA) measures how much a model amplifies group attribute biases on unseen data using only test-set statistics. It compares predicted and actual co-occurrence proportions, applying a frequency-based scaling factor to balance rare and common subgroups. This design avoids train-test distribution shift issues, reduces noise from underrepresented groups, and produces a single, interpretable bias score that remains stable across imbalance levels.</li>
+        </ul>
+      </div>
+      <figure class="card">
+        <img src="sba.png" alt="SBA Metric Illustration" style="max-width:100%;border-radius:8px;background:#ecfeff;padding:8px;">
+        <figcaption>SBA definition and motivation.</figcaption>
+      </figure>
+    </section>
+
+    <section id="contrib" class="card">
+      <h2>Key Contributions</h2>
+      <ul>
+        <li>First practical, end-to-end multi-bias mitigation framework - Handles multiple overlapping biases simultaneously using only group labels at training, with no extra modules at inference.</li>
+        <li>Two-stage ABIL → Gradient-Suppression Fine-Tuning - ABIL Learns to expose and integrate bias features, then suppresses them via gradient orthogonalization for a single robust backbone.</li>
+        <li>Robust SBA metric - A test-only, subgroup-aware measure of bias amplification that remains stable under imbalance and distribution shifts.</li>
+      </ul>
+    </section>
+
+  </main>
+  <footer class="footer">
+    © 2025 Rajeev Ranjan Dwivedi · Ankur Kumar · Vinod K Kurmi
+  </footer>
+</body>
+</html>
